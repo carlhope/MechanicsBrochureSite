@@ -1,0 +1,44 @@
+﻿@using Umbraco.Cms.Core.Models.Blocks
+@using Umbraco.Cms.Web.Common.PublishedModels
+@inherits UmbracoViewPage<Home>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<section class="hero" style="background-image: url('@Model.HeroBackgroundImage?.Url()');">
+    @if (Model.EnableHero)
+    {
+        <div class="hero-content">
+            <h1>@Model.HeroHeading</h1>
+            <p>@Model.HeroSubHeading</p>
+
+            @if (!string.IsNullOrWhiteSpace(Model.CallToActionText) && Model.CallToActionLink?.Any() == true)
+            {
+                var link = Model.CallToActionLink.First();
+                <a href="@link.Url" class="cta-button">@Model.CallToActionText</a>
+            }
+        </div>
+    }
+
+    <pre>@string.Join(", ", Model.Properties.Select(p => p.Alias))</pre>
+</section>
+
+@if (Model.FeaturedPageServices?.Any() == true)
+{
+    <section class="featured-services">
+        <h2>@(string.IsNullOrWhiteSpace(Model.SectionHeading) ? "Our Services" : Model.SectionHeading)</h2>
+        <div class="services-grid">
+            @foreach (var block in Model.FeaturedPageServices)
+            {
+                if (block.Content is FeaturedService service)
+                {
+                    <div class="service-card">
+                        <h3>@service.ServiceTitle</h3>
+                        <p>@service.ServiceSummary</p>
+                    </div>
+                }
+            }
+        </div>
+    </section>
+}

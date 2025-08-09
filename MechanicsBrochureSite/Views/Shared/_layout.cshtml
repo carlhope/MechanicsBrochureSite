@@ -1,0 +1,61 @@
+﻿@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage
+@using Umbraco.Cms.Web.Common.PublishedModels
+@{
+    var pageTitle = Model.Value<string>("pageTitle") ?? Model.Name;
+    var metaDescription = Model.Value<string>("metaDescription");
+    var canonicalUrl = Model.Value<string>("canonicalUrl");
+    var openGraphImage = Model.Value<IPublishedContent>("openGraphImage");
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8" />
+    <title>@pageTitle</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+    @if (!string.IsNullOrWhiteSpace(metaDescription))
+    {
+        <meta name="description" content="@metaDescription" />
+    }
+
+    @if (!string.IsNullOrWhiteSpace(canonicalUrl))
+    {
+        <link rel="canonical" href="@canonicalUrl" />
+    }
+
+    @if (openGraphImage != null)
+    {
+        <meta property="og:image" content="@openGraphImage.Url()" />
+    }
+
+    <link rel="stylesheet" href="/css/site.css" />
+</head>
+<body>
+    <header>
+        <nav>
+            <ul>
+                @{
+                    var root = Model.Root();
+                    var children = root.Children()
+                    .Where(x => !x.Value<bool>("hideFromNavigation"))
+                    .OrderBy(x => x.Value<int?>("sortOrderOverride") ?? x.SortOrder);
+
+                    foreach (var item in children)
+                    {
+                        var label = item.Value<string>("customMenuLabel") ?? item.Name;
+                        <li><a href="@item.Url()">@label</a></li>
+                    }
+                }
+            </ul>
+        </nav>
+    </header>
+
+    <main role="main">
+        @RenderBody()
+    </main>
+
+    <footer>
+        <p>&copy; @DateTime.Now.Year - My Umbraco Site</p>
+    </footer>
+</body>
+</html>
