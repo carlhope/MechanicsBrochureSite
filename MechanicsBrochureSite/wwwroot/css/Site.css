@@ -1,0 +1,11 @@
+﻿.site-wrapper {
+    width: 100%;
+    max-width: 1200px;
+    padding-left: 1rem;
+    padding-right: 1rem;
+    margin: 0 auto;
+    background-color: #fff;
+    box-shadow: 0 0 20px rgba(0,0,0,0.05);
+    border-left: 1px solid #eee;
+    border-right: 1px solid #eee;
+}

@@ -6,39 +6,64 @@
     Layout = "~/Views/Shared/_Layout.cshtml";
 }
 
-<section class="hero" style="background-image: url('@Model.HeroBackgroundImage?.Url()');">
+<section class="hero text-white text-center py-5" style="background-image: url('@Model.HeroBackgroundImage?.Url()'); background-size: cover; background-position: center;">
     @if (Model.EnableHero)
     {
-        <div class="hero-content">
-            <h1>@Model.HeroHeading</h1>
-            <p>@Model.HeroSubHeading</p>
+        <div class="container">
+            <div class="hero-content">
+                <h1 class="display-4 fw-bold">@Model.HeroHeading</h1>
+                <p class="lead">@Model.HeroSubHeading</p>
 
-            @if (!string.IsNullOrWhiteSpace(Model.CallToActionText) && Model.CallToActionLink?.Any() == true)
-            {
-                var link = Model.CallToActionLink.First();
-                <a href="@link.Url" class="cta-button">@Model.CallToActionText</a>
-            }
+                @if (!string.IsNullOrWhiteSpace(Model.CallToActionText) && Model.CallToActionLink?.Any() == true)
+                {
+                    var link = Model.CallToActionLink.First();
+                    <a href="@link.Url" class="btn btn-primary btn-lg mt-3">@Model.CallToActionText</a>
+                }
+            </div>
         </div>
     }
-
-    <pre>@string.Join(", ", Model.Properties.Select(p => p.Alias))</pre>
 </section>
 
-@if (Model.FeaturedPageServices?.Any() == true)
+<section class="garage-intro py-5 bg-light text-center">
+    <div class="container">
+        <div class="mx-auto" style="max-width: 800px;">
+            <h2 class="mb-4">Welcome to Your Local Independent Garage</h2>
+            <p class="lead">
+                Based in the heart of Stoke-on-Trent, we’re proud to offer honest, reliable, and great-value car care. Whether you need a routine service, an MOT, or help with unexpected repairs, our experienced team is here to keep you moving.
+            </p>
+            <p>
+                From brakes and suspension to clutches, exhausts, batteries and more — we handle all general repairs with attention to detail and a commitment to quality. No jargon, no hidden costs — just straightforward service you can trust.
+            </p>
+        </div>
+    </div>
+</section>
+
+ @if (Model.FeaturedPageServices?.Any() == true)
 {
-    <section class="featured-services">
-        <h2>@(string.IsNullOrWhiteSpace(Model.SectionHeading) ? "Our Services" : Model.SectionHeading)</h2>
-        <div class="services-grid">
+    <section class="featured-services py-5 bg-light">
+        <div class="container">
+            <h2 class="mb-4 text-center">
+                @(
+                            string.IsNullOrWhiteSpace(Model.SectionHeading) ? "Our Services" : Model.SectionHeading
+                            )
+        </h2>
+
+            <div class="row">
             @foreach (var block in Model.FeaturedPageServices)
-            {
-                if (block.Content is FeaturedService service)
                 {
-                    <div class="service-card">
-                        <h3>@service.ServiceTitle</h3>
-                        <p>@service.ServiceSummary</p>
-                    </div>
+                    if (block.Content is FeaturedService service)
+                    {
+                        <div class="col-md-4 mb-4">
+                            <div class="card h-100 shadow-sm">
+                                <div class="card-body">
+                                    <h3 class="card-title">@service.ServiceTitle</h3>
+                                    <p class="card-text">@service.ServiceSummary</p>
+                                </div>
+                            </div>
+                        </div>
+                    }
                 }
-            }
+            </div>
         </div>
     </section>
 }
