@@ -53,11 +53,26 @@
                 {
                     if (block.Content is FeaturedService service)
                     {
-                        <div class="col-md-4 mb-4">
+                        var imageUrl = service.ServiceIcon?.Url();
+                        var link = service.LinkToFullService;
+
+                        <div class="col-12 col-lg-6 col-xxl-4 mb-4">
                             <div class="card h-100 shadow-sm">
-                                <div class="card-body">
+                                @if (!string.IsNullOrWhiteSpace(imageUrl))
+                                {
+                                    <img src="@imageUrl" class="card-img-top" alt="@service.ServiceTitle" />
+                                }
+
+                                <div class="card-body d-flex flex-column">
                                     <h3 class="card-title">@service.ServiceTitle</h3>
                                     <p class="card-text">@service.ServiceSummary</p>
+
+                                    @if (link != null && !string.IsNullOrWhiteSpace(link.Url()))
+                                    {
+                                        <a href="@link.Url()" class="btn btn-outline-primary mt-auto">
+                                            Learn More
+                                        </a>
+                                    }
                                 </div>
                             </div>
                         </div>
