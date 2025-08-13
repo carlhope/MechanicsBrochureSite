@@ -1,0 +1,19 @@
+﻿@using Umbraco.Cms.Web.Common.PublishedModels
+@inherits Umbraco.Cms.Web.Common.Views.UmbracoViewPage<ContactPage>
+
+@{
+    Layout = "~/Views/Shared/_Layout.cshtml";
+    var formId = Model.ContactForm;
+    Console.WriteLine($"ContactForm ID: {formId}");
+}
+
+<div class="container py-5">
+    <h1>@Model.Name</h1>
+    <p>We’d love to hear from you. Fill out the form below and we’ll get back to you soon.</p>
+
+    @if (formId != Guid.Empty)
+    {
+        <p>Form should render</p>
+        <umb-forms-render form-id="@formId.Value" />
+    }
+</div>
