@@ -1,0 +1,10 @@
+﻿{
+  "dashboards": [
+    {
+      "alias": "myExtension.dashboard",
+      "name": "My Extension Dashboard",
+      "sections": ["content"],
+      "js": ["/App_Plugins/MyExtension/dist/my-dashboard.js"]
+    }
+  ]
+}
